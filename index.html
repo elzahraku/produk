@@ -3,185 +3,158 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bot Store</title>
+<title>ELZ STORE</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #09090f;
-    --surface: #12121c;
-    --surface2: #1a1a28;
-    --border: #2a2a40;
-    --accent: #7c3aed;
-    --accent2: #06d6a0;
-    --text: #f0f0ff;
-    --muted: #6b6b8a;
+    --bg: #09090f; --surface: #12121c; --surface2: #1a1a28;
+    --border: #2a2a40; --accent: #7c3aed; --accent2: #06d6a0;
+    --text: #f0f0ff; --muted: #6b6b8a; --danger: #ef4444;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden; }
   body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(124,58,237,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124,58,237,.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
+    content: ''; position: fixed; inset: 0; z-index: 0;
+    background-image: linear-gradient(rgba(124,58,237,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
   }
   .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
   .orb-1 { width: 500px; height: 500px; background: rgba(124,58,237,.18); top: -100px; right: -100px; }
   .orb-2 { width: 400px; height: 400px; background: rgba(6,214,160,.10); bottom: 100px; left: -100px; }
 
-  header {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 70px 20px 50px;
-  }
+  /* HEADER */
+  header { position: relative; z-index: 10; text-align: center; padding: 70px 20px 50px; }
   .store-badge {
     display: inline-block;
     background: linear-gradient(135deg, rgba(124,58,237,.3), rgba(6,214,160,.2));
-    border: 1px solid rgba(124,58,237,.4);
-    color: var(--accent2);
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 3px;
-    padding: 6px 18px; border-radius: 100px;
-    margin-bottom: 20px;
-    animation: fadeUp .6s ease both;
+    border: 1px solid rgba(124,58,237,.4); color: var(--accent2);
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px;
+    padding: 6px 18px; border-radius: 100px; margin-bottom: 20px; animation: fadeUp .6s ease both;
   }
   h1.store-title {
-    font-size: clamp(2.2rem, 8vw, 4.5rem);
-    font-weight: 800; line-height: 1.05;
+    font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.05;
     background: linear-gradient(135deg, #fff 30%, #a78bfa 70%, #06d6a0 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    animation: fadeUp .6s .1s ease both;
-    margin-bottom: 14px;
+    animation: fadeUp .6s .1s ease both; margin-bottom: 14px;
   }
-  .store-tagline {
-    color: var(--muted); font-size: 1rem;
-    animation: fadeUp .6s .2s ease both; margin-bottom: 36px;
-  }
+  .store-tagline { color: var(--muted); font-size: 1rem; animation: fadeUp .6s .2s ease both; margin-bottom: 36px; }
+  .header-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; animation: fadeUp .6s .3s ease both; }
   .header-contact {
     display: inline-flex; align-items: center; gap: 10px;
-    background: linear-gradient(135deg, #7c3aed, #5b21b6);
-    color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem;
-    padding: 13px 28px; border-radius: 12px;
-    animation: fadeUp .6s .3s ease both;
-    transition: transform .2s, box-shadow .2s;
+    background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff;
+    text-decoration: none; font-weight: 700; font-size: .95rem;
+    padding: 13px 28px; border-radius: 12px; transition: transform .2s, box-shadow .2s;
     box-shadow: 0 4px 30px rgba(124,58,237,.35);
   }
   .header-contact:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(124,58,237,.5); }
+  .admin-badge {
+    display: none; align-items: center; gap: 8px;
+    background: rgba(6,214,160,.15); border: 1px solid rgba(6,214,160,.3);
+    color: var(--accent2); font-size: .8rem; font-weight: 700;
+    padding: 10px 18px; border-radius: 12px; font-family: 'Space Mono', monospace; letter-spacing: 1px;
+  }
+  .admin-badge.show { display: inline-flex; }
+  .logout-btn {
+    background: none; border: 1px solid rgba(255,80,80,.3); color: #ff6b6b;
+    font-size: .75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;
+    cursor: pointer; font-family: 'Space Mono', monospace; transition: all .2s;
+  }
+  .logout-btn:hover { background: rgba(255,80,80,.15); }
 
+  /* STATS */
   .stats-bar {
-    position: relative; z-index: 10;
-    display: flex; justify-content: center;
-    max-width: 560px; margin: 0 auto 50px;
-    padding: 0 20px;
-    animation: fadeUp .6s .35s ease both;
+    position: relative; z-index: 10; display: flex; justify-content: center;
+    max-width: 560px; margin: 0 auto 50px; padding: 0 20px; animation: fadeUp .6s .35s ease both;
   }
-  .stat-item {
-    flex: 1; text-align: center; padding: 18px 10px;
-    background: var(--surface); border: 1px solid var(--border);
-  }
+  .stat-item { flex: 1; text-align: center; padding: 18px 10px; background: var(--surface); border: 1px solid var(--border); }
   .stat-item:first-child { border-radius: 12px 0 0 12px; }
   .stat-item:last-child { border-radius: 0 12px 12px 0; }
   .stat-item + .stat-item { border-left: none; }
   .stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent2); display: block; }
   .stat-label { font-size: .7rem; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
 
+  /* FILTER */
   .filter-bar {
-    position: relative; z-index: 10;
-    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-    padding: 0 20px 44px;
-    animation: fadeUp .6s .4s ease both;
+    position: relative; z-index: 10; display: flex; gap: 8px; flex-wrap: wrap;
+    justify-content: center; padding: 0 20px 44px; animation: fadeUp .6s .4s ease both;
   }
   .filter-btn {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--muted); font-family: 'Syne', sans-serif;
-    font-size: .82rem; font-weight: 600;
-    padding: 8px 18px; border-radius: 100px;
-    cursor: pointer; transition: all .2s; letter-spacing: .5px;
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 600;
+    padding: 8px 18px; border-radius: 100px; cursor: pointer; transition: all .2s;
   }
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--accent); border-color: var(--accent); color: #fff;
-    box-shadow: 0 4px 20px rgba(124,58,237,.4);
-  }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,.4); }
 
-  /* === 2 KOLOM SELALU === */
+  /* GRID */
   .products-grid {
-    position: relative; z-index: 10;
-    display: grid;
+    position: relative; z-index: 10; display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 20px 60px;
+    gap: 18px; max-width: 1100px; margin: 0 auto; padding: 0 20px 80px;
   }
-  @media (max-width: 600px) {
-    .products-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 640px) { .products-grid { grid-template-columns: 1fr; } }
 
+  /* CARD */
   .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 26px;
-    position: relative; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 26px; position: relative; overflow: hidden;
     transition: transform .3s, border-color .3s, box-shadow .3s;
-    animation: cardIn .5s ease both;
-    display: flex; flex-direction: column;
+    animation: cardIn .5s ease both; display: flex; flex-direction: column;
   }
   .card::before {
     content: ''; position: absolute; inset: 0;
     background: radial-gradient(ellipse at top right, rgba(124,58,237,.15), transparent 70%);
     pointer-events: none; opacity: 0; transition: opacity .3s;
   }
-  .card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 20px 60px rgba(124,58,237,.2); }
+  .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 20px 60px rgba(124,58,237,.2); }
   .card:hover::before { opacity: 1; }
-
   .card-badge {
     position: absolute; top: 18px; right: 18px;
-    font-size: .65rem; font-weight: 700;
-    font-family: 'Space Mono', monospace;
-    padding: 4px 10px; border-radius: 100px;
-    letter-spacing: 1px; color: #fff;
+    font-size: .65rem; font-weight: 700; font-family: 'Space Mono', monospace;
+    padding: 4px 10px; border-radius: 100px; letter-spacing: 1px; color: #fff;
   }
   .card-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
-  .card-category {
-    font-size: .68rem; font-weight: 700; letter-spacing: 2px;
-    color: var(--accent2); font-family: 'Space Mono', monospace; margin-bottom: 5px;
-  }
+  .card-category { font-size: .68rem; font-weight: 700; letter-spacing: 2px; color: var(--accent2); font-family: 'Space Mono', monospace; margin-bottom: 5px; }
   .card-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 9px; }
   .card-desc { font-size: .86rem; color: var(--muted); line-height: 1.6; margin-bottom: 16px; flex: 1; }
   .features-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-  .feature-tag {
-    background: var(--surface2); border: 1px solid var(--border);
-    color: #a78bfa; font-size: .7rem; font-weight: 600;
-    padding: 3px 9px; border-radius: 6px; font-family: 'Space Mono', monospace;
-  }
+  .feature-tag { background: var(--surface2); border: 1px solid var(--border); color: #a78bfa; font-size: .7rem; font-weight: 600; padding: 3px 9px; border-radius: 6px; font-family: 'Space Mono', monospace; }
   .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
   .price-label { font-size: .65rem; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
   .price-amount { font-size: 1.4rem; font-weight: 800; line-height: 1; }
   .price-amount span { font-size: .8rem; color: var(--muted); font-weight: 600; }
   .order-btn {
     display: inline-flex; align-items: center; gap: 7px;
-    background: linear-gradient(135deg, #7c3aed, #5b21b6);
-    color: #fff; text-decoration: none; font-weight: 700; font-size: .83rem;
-    padding: 11px 18px; border-radius: 10px;
-    transition: transform .2s, box-shadow .2s;
-    white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(124,58,237,.3);
+    background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff;
+    text-decoration: none; font-weight: 700; font-size: .83rem;
+    padding: 11px 18px; border-radius: 10px; transition: transform .2s, box-shadow .2s;
+    white-space: nowrap; box-shadow: 0 4px 20px rgba(124,58,237,.3);
   }
   .order-btn:hover { transform: scale(1.05); box-shadow: 0 6px 30px rgba(124,58,237,.5); }
 
-  .add-card {
-    background: transparent; border: 2px dashed var(--border);
-    border-radius: 20px; padding: 26px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 10px;
-    cursor: pointer; transition: all .3s; min-height: 260px; text-align: center;
+  /* ADMIN ACTION BAR (bawah card) */
+  .admin-actions {
+    display: none;
+    gap: 8px; margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--border);
   }
+  body.admin-mode .admin-actions { display: flex; }
+  .btn-edit, .btn-delete {
+    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: 'Space Mono', monospace; font-size: .72rem; font-weight: 700;
+    padding: 8px 12px; border-radius: 8px; cursor: pointer; border: 1px solid; transition: all .2s;
+  }
+  .btn-edit { background: rgba(124,58,237,.12); border-color: rgba(124,58,237,.3); color: #a78bfa; }
+  .btn-edit:hover { background: rgba(124,58,237,.3); color: #fff; }
+  .btn-delete { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.25); color: #f87171; }
+  .btn-delete:hover { background: rgba(239,68,68,.3); color: #fff; }
+
+  /* ADD CARD */
+  .add-card {
+    background: transparent; border: 2px dashed var(--border); border-radius: 20px; padding: 26px;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; cursor: pointer; transition: all .3s; min-height: 260px; text-align: center;
+  }
+  body.admin-mode .add-card { display: flex; }
   .add-card:hover { border-color: var(--accent); background: rgba(124,58,237,.05); }
   .add-icon { font-size: 2.8rem; opacity: .35; transition: opacity .3s; }
   .add-card:hover .add-icon { opacity: 1; }
@@ -189,85 +162,98 @@
   .add-card:hover .add-text { color: var(--accent2); }
   .add-sub { color: var(--border); font-size: .72rem; font-family: 'Space Mono', monospace; }
 
+  /* MODAL */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
+    background: rgba(0,0,0,.85); backdrop-filter: blur(10px);
     display: flex; align-items: center; justify-content: center; padding: 20px;
     opacity: 0; pointer-events: none; transition: opacity .3s;
   }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 24px; padding: 34px;
-    width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 36px;
+    width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto;
     transform: scale(.95) translateY(20px); transition: transform .3s; position: relative;
   }
   .modal-overlay.open .modal { transform: scale(1) translateY(0); }
-  .modal h2 {
-    font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;
-    background: linear-gradient(135deg, #fff, #a78bfa);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .modal-sub { color: var(--muted); font-size: .85rem; margin-bottom: 24px; }
+  .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; background: linear-gradient(135deg, #fff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .modal-sub { color: var(--muted); font-size: .85rem; margin-bottom: 26px; }
   .close-btn {
-    position: absolute; top: 18px; right: 18px;
-    background: var(--surface2); border: 1px solid var(--border);
-    color: var(--muted); width: 30px; height: 30px; border-radius: 50%;
-    cursor: pointer; font-size: .95rem;
+    position: absolute; top: 18px; right: 18px; background: var(--surface2);
+    border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px;
+    border-radius: 50%; cursor: pointer; font-size: 1rem;
     display: flex; align-items: center; justify-content: center; transition: all .2s;
   }
   .close-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* FORM */
   .form-group { margin-bottom: 14px; }
-  .form-group label {
-    display: block; font-size: .75rem; font-weight: 700;
-    color: var(--muted); letter-spacing: 1px; margin-bottom: 7px;
-    font-family: 'Space Mono', monospace;
-  }
+  .form-group label { display: block; font-size: .75rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; margin-bottom: 7px; font-family: 'Space Mono', monospace; }
   .form-group input, .form-group textarea, .form-group select {
     width: 100%; background: var(--surface2); border: 1px solid var(--border);
     color: var(--text); font-family: 'Syne', sans-serif; font-size: .88rem;
-    padding: 11px 14px; border-radius: 10px; outline: none; transition: border-color .2s;
+    padding: 12px 14px; border-radius: 10px; outline: none; transition: border-color .2s;
   }
   .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
   .form-group textarea { resize: vertical; min-height: 75px; }
   .form-group select option { background: var(--surface2); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
   .submit-btn {
-    width: 100%; background: linear-gradient(135deg, #7c3aed, #5b21b6);
-    color: #fff; border: none; font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: .95rem; padding: 13px;
-    border-radius: 10px; cursor: pointer; margin-top: 6px;
-    transition: box-shadow .2s, transform .2s;
+    width: 100%; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff;
+    border: none; font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem;
+    padding: 13px; border-radius: 10px; cursor: pointer; transition: box-shadow .2s, transform .2s;
     box-shadow: 0 4px 20px rgba(124,58,237,.3);
   }
   .submit-btn:hover { box-shadow: 0 6px 30px rgba(124,58,237,.5); transform: translateY(-1px); }
-
-  footer {
-    position: relative; z-index: 10; text-align: center;
-    padding: 40px 20px 30px; color: var(--muted); font-size: .82rem;
+  .cancel-btn {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem;
+    padding: 13px; border-radius: 10px; cursor: pointer; transition: all .2s;
   }
+  .cancel-btn:hover { border-color: var(--accent); color: var(--text); }
+
+  /* LOGIN MODAL */
+  .lock-icon { font-size: 3rem; text-align: center; margin-bottom: 16px; }
+  .pw-input-wrap { position: relative; }
+  .pw-input-wrap input { padding-right: 44px; }
+  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; }
+  .login-error { color: #ff6b6b; font-size: .8rem; font-family: 'Space Mono', monospace; margin-top: 8px; display: none; text-align: center; }
+  .login-error.show { display: block; }
+
+  /* CONFIRM MODAL */
+  .confirm-icon { font-size: 3rem; text-align: center; margin-bottom: 12px; }
+  .confirm-name { color: var(--accent2); font-weight: 700; }
+
+  /* FAB */
+  .fab-admin {
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .25s; box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  .fab-admin:hover { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 30px rgba(124,58,237,.5); }
+
+  footer { position: relative; z-index: 10; text-align: center; padding: 40px 20px 100px; color: var(--muted); font-size: .82rem; }
   footer a { color: var(--accent2); text-decoration: none; }
 
   .toast {
-    position: fixed; bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--accent2); color: #000;
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px);
     font-weight: 700; padding: 11px 22px; border-radius: 100px;
-    z-index: 9999; transition: transform .3s; font-size: .88rem;
+    z-index: 9999; transition: transform .3s; font-size: .88rem; white-space: nowrap;
+    background: var(--accent2); color: #000;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: #ef4444; color: #fff; }
+  .toast.warn { background: #f59e0b; color: #000; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(22px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(18px) scale(.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(22px);} to { opacity:1; transform:translateY(0);} }
+  @keyframes cardIn { from { opacity:0; transform:translateY(18px) scale(.97);} to { opacity:1; transform:translateY(0) scale(1);} }
 
   @media (max-width: 560px) {
     .form-row { grid-template-columns: 1fr; }
+    .btn-row { grid-template-columns: 1fr; }
     .stats-bar { flex-wrap: wrap; }
     .stat-item { flex: 1 1 45%; }
     .stat-item:first-child { border-radius: 12px 0 0 0; }
@@ -279,7 +265,6 @@
 </style>
 </head>
 <body>
-
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 
@@ -287,28 +272,54 @@
   <div class="store-badge" id="storeBadge"></div>
   <h1 class="store-title" id="storeTitle"></h1>
   <p class="store-tagline" id="storeTagline"></p>
-  <a href="#" class="header-contact" id="headerContact" target="_blank">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.927 13.01 5.07 12.12c-.652-.204-.664-.652.136-.964l11.17-4.307c.54-.196 1.016.12.518 1.372z"/></svg>
-    Hubungi Kami
-  </a>
+  <div class="header-actions">
+    <a href="#" class="header-contact" id="headerContact" target="_blank">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.927 13.01 5.07 12.12c-.652-.204-.664-.652.136-.964l11.17-4.307c.54-.196 1.016.12.518 1.372z"/></svg>
+      Hubungi Kami
+    </a>
+    <div class="admin-badge" id="adminBadge">
+      🛡️ ADMIN MODE
+      <button class="logout-btn" id="logoutBtn">Keluar</button>
+    </div>
+  </div>
 </header>
 
 <div class="stats-bar" id="statsBar"></div>
 <div class="filter-bar" id="filterBar"></div>
 <div class="products-grid" id="productsGrid"></div>
 
-<div class="modal-overlay" id="modalOverlay">
+<!-- ══ MODAL LOGIN ══ -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal" style="max-width:380px;">
+    <div class="lock-icon">🔐</div>
+    <h2 style="text-align:center;">Admin Login</h2>
+    <p class="modal-sub" style="text-align:center;">Masukkan password untuk masuk sebagai admin.</p>
+    <div class="form-group">
+      <label>PASSWORD</label>
+      <div class="pw-input-wrap">
+        <input type="password" id="pwInput" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="pw-toggle" id="pwToggle" type="button">👁️</button>
+      </div>
+    </div>
+    <div class="login-error" id="loginError">❌ Password salah! Coba lagi.</div>
+    <button class="submit-btn" id="loginBtn" style="margin-top:16px;">🔓 Masuk sebagai Admin</button>
+  </div>
+</div>
+
+<!-- ══ MODAL TAMBAH / EDIT PRODUK ══ -->
+<div class="modal-overlay" id="productModal">
   <div class="modal">
-    <button class="close-btn" id="closeModal">✕</button>
-    <h2>➕ Tambah Produk</h2>
-    <p class="modal-sub">Isi form di bawah untuk menambah produk baru.</p>
+    <button class="close-btn" id="closeProductModal">✕</button>
+    <h2 id="modalTitle">➕ Tambah Produk</h2>
+    <p class="modal-sub" id="modalSub">Produk tersimpan permanen di browser ini.</p>
+    <input type="hidden" id="f-id"/>
     <div class="form-row">
       <div class="form-group">
         <label>NAMA PRODUK *</label>
         <input type="text" id="f-name" placeholder="Bot Baru"/>
       </div>
       <div class="form-group">
-        <label>ICON EMOJI *</label>
+        <label>ICON EMOJI</label>
         <input type="text" id="f-icon" placeholder="🤖" maxlength="2"/>
       </div>
     </div>
@@ -343,15 +354,32 @@
         <input type="color" id="f-badgeColor" value="#7c3aed" style="height:42px;padding:4px 6px;cursor:pointer;"/>
       </div>
     </div>
-    <button class="submit-btn" id="submitProduct">🚀 Tambah Produk</button>
+    <div class="btn-row">
+      <button class="cancel-btn" id="cancelProductModal">Batal</button>
+      <button class="submit-btn" id="submitProduct">💾 Simpan</button>
+    </div>
   </div>
 </div>
 
+<!-- ══ MODAL KONFIRMASI HAPUS ══ -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="max-width:380px; text-align:center;">
+    <div class="confirm-icon">🗑️</div>
+    <h2>Hapus Produk?</h2>
+    <p class="modal-sub">Produk <span class="confirm-name" id="deleteName"></span> akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div class="btn-row">
+      <button class="cancel-btn" id="cancelDelete">Batal</button>
+      <button class="submit-btn" id="confirmDelete" style="background:linear-gradient(135deg,#ef4444,#b91c1c); box-shadow:0 4px 20px rgba(239,68,68,.3);">🗑️ Hapus</button>
+    </div>
+  </div>
+</div>
+
+<button class="fab-admin" id="fabAdmin" title="Admin">🔑</button>
+
 <footer>
   <p>© 2025 <strong id="footerName"></strong> · <a href="#" id="footerTg" target="_blank"></a></p>
-  <p style="margin-top:6px;font-family:'Space Mono',monospace;font-size:.68rem;opacity:.4;">Edit bagian CONFIG di dalam file HTML untuk mengubah data toko</p>
+  <p style="margin-top:6px;font-family:'Space Mono',monospace;font-size:.68rem;opacity:.4;">Ganti password di bagian CONFIG dalam file HTML</p>
 </footer>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -368,120 +396,89 @@ const CONFIG = {
     badge: "⚡ TRUSTED SELLER",
   },
 
+  // ⚠️ GANTI PASSWORD INI!
+  adminPassword: " Malik10_",
+
   categories: ["Semua", "Bot", "Tools", "Payment", "Hosting"],
 
-  products: [
-    {
-      id: 1, name: "Userbot", icon: "🤖", category: "Bot",
-      description: "Userbot Telegram canggih dengan fitur lengkap. Auto-reply, anti-spam, dan banyak plugin siap pakai.",
-      features: ["Auto Reply", "Anti Spam", "Anti gcast", "Play Music", "Multi Plugin", "Support 24/7", "Harga/Bulan"],
-      price: 10000, priceLabel: "10.000",
-      badge: "POPULER", badgeColor: "#ff6b35",
-      orderMessage: "Halo, saya ingin order Userbot. Tolong info lebih lanjut!",
-    },
-    {
-      id: 2, name: "Force Sub Bot", icon: "🔒", category: "Bot",
-      description: "Bot wajib subscribe sebelum bisa akses grup/channel. Efektif meningkatkan member.",
-      features: ["Multi Channel", "Custom Pesan", "Auto Kick", "Log Admin", "Harga/Bulan"],
-      price: 20000, priceLabel: "20.000",
-      badge: "HOT", badgeColor: "#e63946",
-      orderMessage: "Halo, saya ingin order Force Sub Bot. Tolong info lebih lanjut!",
-    },
-    {
-      id: 3, name: "Ankes Bot", icon: "📋", category: "Bot",
-      description: "Bot ankes & Cocok untuk mengatur group anda.",
-      features: ["Gacor", "Harga/Bulan"],
-      price: 15000, priceLabel: "15.000",
-      badge: null, badgeColor: null,
-      orderMessage: "Halo, saya ingin order Ankes Bot. Tolong info lebih lanjut!",
-    },
-    {
-      id: 4, name: "Bot Music", icon: "🎵", category: "Bot",
-      description: "Bot pemutar musik berkualitas tinggi untuk grup Telegram. Support YouTube & Spotify.",
-      features: ["YouTube & Spotify", "Queue System", "Lyric Support", "HD Audio", "Harga/Bulan"],
-      price: 185000, priceLabel: "185.000",
-      badge: "NEW", badgeColor: "#2ec4b6",
-      orderMessage: "Halo, saya ingin order Bot Music. Tolong info lebih lanjut!",
-    },
-    {
-      id: 5, name: "Tagall Partner", icon: "📢", category: "Tools",
-      description: "Bot tag semua member grup sekaligus. Cocok untuk pengumuman penting dan promosi.",
-      features: ["Tag Semua Member", "Anti-Ban Cooldown", "Custom Pesan", "Jadwal Kirim", "Harga/Bulan"],
-      price: 15000, priceLabel: "15.000",
-      badge: "POPULER", badgeColor: "#ff6b35",
-      orderMessage: "Halo, saya ingin order Tagall Partner. Tolong info lebih lanjut!",
-    },
-    {
-      id: 6, name: "VIP Payment Gateway", icon: "💳", category: "Payment",
-      description: "Gateway pembayaran otomatis. Support QRIS, Transfer Bank & e-Wallet, Saweria, Chasify, Cocok untuk bisnis digital.",
-      features: ["QRIS Otomatis", "Transfer Bank", "GoPay & OVO", "Dashboard Laporan", "Harga/Bulan"],
-      price: 50000, priceLabel: "50.000",
-      badge: "VIP", badgeColor: "#ffd700",
-      orderMessage: "Halo, saya ingin order VIP Payment Gateway. Tolong info lebih lanjut!",
-    },
-    {
-      id: 7, name: "Push Member", icon: "🚀", category: "Tools",
-      description: "Layanan tambah member Telegram grup/channel secara organik dan aman dari ban.",
-      features: ["Member Real", "Anti Ban", "Proses Cepat", "Garansi Refill", "Harga/1K member"],
-      price: 30000, priceLabel: "30.000",
-      badge: "BEST SELLER", badgeColor: "#8338ec",
-      orderMessage: "Halo, saya ingin order Push Member. Tolong info lebih lanjut!",
-    },
-    {
-      id: 8, name: "VPS", icon: "🖥️", category: "Hosting",
-      description: "Virtual Private Server kencang dan stabil untuk hosting bot Telegram kamu 24/7.",
-      features: ["Uptime 99.9%", "SSD NVMe", "Bandwidth Unlimited", "IP Dedicated", "Harga/Bulan"],
-      price: 180000, priceLabel: "180.000",
-      badge: "STABIL", badgeColor: "#06d6a0",
-      orderMessage: "Halo, saya ingin order VPS. Tolong info lebih lanjut!",
-    },
-    {
-      id: 9, name: "Paket Userbt", icon: "🤖", category: "Bot",
-      description: "Paket Userbot untuk 1 Pv, Full Akses 24/7.",
-      features: ["Full Akses", "Dapat 1 bot Pv", "Garansi Full selama order", "Harga untuk 20 user", "Harga/Bulan"],
-      price: 100000, priceLabel: "100.000",
-      badge: "POPULER", badgeColor: "#ff6b35",
-      orderMessage: "Halo, saya ingin order Paket Userbt. Tolong info lebih lanjut!",
-    },
-    // Tambah produk baru di sini:
-    // {
-    //   id: 10, name: "Nama Produk", icon: "🔥", category: "Bot",
-    //   description: "Deskripsi produk.",
-    //   features: ["Fitur 1", "Fitur 2", "Fitur 3"],
-    //   price: 50000, priceLabel: "50.000",
-    //   badge: "NEW", badgeColor: "#ff6b35",
-    //   orderMessage: "Halo, saya ingin order Nama Produk. Tolong info lebih lanjut!",
-    // },
+  defaultProducts: [
+    { id:1, name:"Userbot", icon:"🤖", category:"Bot", description:"Userbot Telegram canggih dengan fitur lengkap. Auto-reply, anti-spam, dan banyak plugin siap pakai.", features:["Auto Reply","Anti Spam","Anti gcast","Play Music","Multi Plugin","Support 24/7","Harga/Bulan"], price:10000, priceLabel:"10.000", badge:"POPULER", badgeColor:"#ff6b35", orderMessage:"Halo, saya ingin order Userbot. Tolong info lebih lanjut!" },
+    { id:2, name:"Force Sub Bot", icon:"🔒", category:"Bot", description:"Bot wajib subscribe sebelum bisa akses grup/channel. Efektif meningkatkan member.", features:["Multi Channel","Custom Pesan","Auto Kick","Log Admin","Harga/Bulan"], price:20000, priceLabel:"20.000", badge:"HOT", badgeColor:"#e63946", orderMessage:"Halo, saya ingin order Force Sub Bot. Tolong info lebih lanjut!" },
+    { id:3, name:"Ankes Bot", icon:"📋", category:"Bot", description:"Bot ankes & Cocok untuk mengatur group anda.", features:["Gacor","Harga/Bulan"], price:15000, priceLabel:"15.000", badge:null, badgeColor:null, orderMessage:"Halo, saya ingin order Ankes Bot. Tolong info lebih lanjut!" },
+    { id:4, name:"Bot Music", icon:"🎵", category:"Bot", description:"Bot pemutar musik berkualitas tinggi untuk grup Telegram. Support YouTube & Spotify.", features:["YouTube & Spotify","Queue System","Lyric Support","HD Audio","Harga/Bulan"], price:185000, priceLabel:"185.000", badge:"NEW", badgeColor:"#2ec4b6", orderMessage:"Halo, saya ingin order Bot Music. Tolong info lebih lanjut!" },
+    { id:5, name:"Tagall Partner", icon:"📢", category:"Tools", description:"Bot tag semua member grup sekaligus. Cocok untuk pengumuman penting dan promosi.", features:["Tag Semua Member","Anti-Ban Cooldown","Custom Pesan","Jadwal Kirim","Harga/Bulan"], price:15000, priceLabel:"15.000", badge:"POPULER", badgeColor:"#ff6b35", orderMessage:"Halo, saya ingin order Tagall Partner. Tolong info lebih lanjut!" },
+    { id:6, name:"VIP Payment Gateway", icon:"💳", category:"Payment", description:"Gateway pembayaran otomatis. Support QRIS, Transfer Bank & e-Wallet, Saweria, Chasify.", features:["QRIS Otomatis","Transfer Bank","GoPay & OVO","Dashboard Laporan","Harga/Bulan"], price:50000, priceLabel:"50.000", badge:"VIP", badgeColor:"#ffd700", orderMessage:"Halo, saya ingin order VIP Payment Gateway. Tolong info lebih lanjut!" },
+    { id:7, name:"Push Member", icon:"🚀", category:"Tools", description:"Layanan tambah member Telegram grup/channel secara organik dan aman dari ban.", features:["Member Real","Anti Ban","Proses Cepat","Garansi Refill","Harga/1K member"], price:30000, priceLabel:"30.000", badge:"BEST SELLER", badgeColor:"#8338ec", orderMessage:"Halo, saya ingin order Push Member. Tolong info lebih lanjut!" },
+    { id:8, name:"VPS", icon:"🖥️", category:"Hosting", description:"Virtual Private Server kencang dan stabil untuk hosting bot Telegram kamu 24/7.", features:["Uptime 99.9%","SSD NVMe","Bandwidth Unlimited","IP Dedicated","Harga/Bulan"], price:180000, priceLabel:"180.000", badge:"STABIL", badgeColor:"#06d6a0", orderMessage:"Halo, saya ingin order VPS. Tolong info lebih lanjut!" },
+    { id:9, name:"Paket Userbt", icon:"🤖", category:"Bot", description:"Paket Userbot untuk 1 Pv, Full Akses 24/7.", features:["Full Akses","Dapat 1 bot Pv","Garansi Full selama order","Harga untuk 20 user","Harga/Bulan"], price:100000, priceLabel:"100.000", badge:"POPULER", badgeColor:"#ff6b35", orderMessage:"Halo, saya ingin order Paket Userbt. Tolong info lebih lanjut!" },
   ],
 };
 // ════════════════════════════════════════════
 
-let products = [...CONFIG.products];
-let activeFilter = "Semua";
+const LS_KEY     = 'elzstore_products_v2';
+const LS_SESSION = 'elzstore_admin_session';
 
+let isAdmin = false;
+let activeFilter = "Semua";
+let pendingDeleteId = null;
+let editMode = false;
+
+// ── LocalStorage helpers ──
+function loadAllProducts() {
+  // Gabung default + extra dari LS
+  const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  // stored = { defaultOverrides: {id: {...}}, extras: [...] }
+  const defaults = CONFIG.defaultProducts.map(p => stored.overrides?.[p.id] ? {...p, ...stored.overrides[p.id]} : p);
+  const extras = stored.extras || [];
+  return { defaults, extras };
+}
+function saveOverride(id, data) {
+  const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  if (!stored.overrides) stored.overrides = {};
+  stored.overrides[id] = data;
+  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+}
+function saveExtras(arr) {
+  const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  stored.extras = arr;
+  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+}
+function getExtras() { return JSON.parse(localStorage.getItem(LS_KEY) || '{}').extras || []; }
+function getAllProducts() { const {defaults, extras} = loadAllProducts(); return [...defaults, ...extras]; }
+
+// ── Utils ──
+function fmtPrice(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+function tgLink(msg) { return CONFIG.store.telegram + "?text=" + encodeURIComponent(msg); }
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show' + (type ? ' '+type : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ── Apply store info ──
 document.title = CONFIG.store.name;
-document.getElementById('storeTitle').textContent = CONFIG.store.name;
-document.getElementById('storeTagline').textContent = CONFIG.store.tagline;
-document.getElementById('storeBadge').textContent = CONFIG.store.badge;
-document.getElementById('footerName').textContent = CONFIG.store.name;
+['storeTitle','storeBadge','storeTagline','footerName'].forEach(id => {
+  const map = { storeTitle: CONFIG.store.name, storeBadge: CONFIG.store.badge, storeTagline: CONFIG.store.tagline, footerName: CONFIG.store.name };
+  document.getElementById(id).textContent = map[id];
+});
 document.getElementById('headerContact').href = CONFIG.store.telegram;
 document.getElementById('footerTg').href = CONFIG.store.telegram;
 document.getElementById('footerTg').textContent = CONFIG.store.telegramUsername;
 
-function fmtPrice(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
-function tgLink(msg) { return CONFIG.store.telegram + "?text=" + encodeURIComponent(msg); }
-
+// ── RENDER ──
 function renderStats() {
-  const cats = [...new Set(products.map(p => p.category))].length;
-  const minP = Math.min(...products.map(p => p.price));
+  const all = getAllProducts();
+  const cats = [...new Set(all.map(p => p.category))].length;
+  const minP = Math.min(...all.map(p => p.price));
   document.getElementById('statsBar').innerHTML = `
-    <div class="stat-item"><span class="stat-num">${products.length}</span><span class="stat-label">PRODUK</span></div>
+    <div class="stat-item"><span class="stat-num">${all.length}</span><span class="stat-label">PRODUK</span></div>
     <div class="stat-item"><span class="stat-num">${cats}</span><span class="stat-label">KATEGORI</span></div>
     <div class="stat-item"><span class="stat-num">24/7</span><span class="stat-label">SUPPORT</span></div>
     <div class="stat-item"><span class="stat-num">${CONFIG.store.currency}${Math.round(minP/1000)}K</span><span class="stat-label">MULAI DARI</span></div>
   `;
 }
-
 function renderFilter() {
   const bar = document.getElementById('filterBar');
   bar.innerHTML = '';
@@ -493,13 +490,14 @@ function renderFilter() {
     bar.appendChild(btn);
   });
 }
-
 function renderGrid() {
   const grid = document.getElementById('productsGrid');
-  const list = activeFilter === 'Semua' ? products : products.filter(p => p.category === activeFilter);
+  const all = getAllProducts();
+  const list = activeFilter === 'Semua' ? all : all.filter(p => p.category === activeFilter);
   grid.innerHTML = '';
 
   list.forEach((p, i) => {
+    const isExtra = !CONFIG.defaultProducts.find(d => d.id === p.id);
     const card = document.createElement('div');
     card.className = 'card';
     card.style.animationDelay = (i * 0.05) + 's';
@@ -520,63 +518,194 @@ function renderGrid() {
           Order
         </a>
       </div>
+      <div class="admin-actions">
+        <button class="btn-edit" data-id="${p.id}">✏️ Edit</button>
+        ${isExtra ? `<button class="btn-delete" data-id="${p.id}" data-name="${p.name}">🗑️ Hapus</button>` : '<button class="btn-delete" data-id="'+p.id+'" data-name="'+p.name+'">🗑️ Reset</button>'}
+      </div>
     `;
     grid.appendChild(card);
   });
 
-  if (activeFilter === 'Semua') {
-    const addCard = document.createElement('div');
-    addCard.className = 'add-card';
-    addCard.onclick = () => document.getElementById('modalOverlay').classList.add('open');
-    addCard.innerHTML = `
-      <div class="add-icon">➕</div>
-      <div class="add-text">Tambah Produk Baru</div>
-      <div class="add-sub">Klik untuk menambah produk</div>
-    `;
-    grid.appendChild(addCard);
-  }
+  // Event edit
+  grid.querySelectorAll('.btn-edit').forEach(btn => {
+    btn.onclick = () => openEditModal(parseInt(btn.dataset.id));
+  });
+  // Event delete/reset
+  grid.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.onclick = () => openDeleteModal(parseInt(btn.dataset.id), btn.dataset.name);
+  });
+
+  // Tombol tambah produk
+  const addCard = document.createElement('div');
+  addCard.className = 'add-card';
+  addCard.onclick = () => openAddModal();
+  addCard.innerHTML = `<div class="add-icon">➕</div><div class="add-text">Tambah Produk Baru</div><div class="add-sub">Tersimpan permanen di browser</div>`;
+  grid.appendChild(addCard);
+}
+function renderAll() { renderStats(); renderFilter(); renderGrid(); }
+
+// ── MODAL PRODUK (tambah & edit) ──
+function clearForm() {
+  ['f-id','f-name','f-icon','f-desc','f-features','f-badge','f-price'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-icon').value = '';
+  document.getElementById('f-badgeColor').value = '#7c3aed';
+  document.getElementById('f-category').value = 'Bot';
+}
+function openAddModal() {
+  editMode = false;
+  clearForm();
+  document.getElementById('modalTitle').textContent = '➕ Tambah Produk';
+  document.getElementById('modalSub').textContent = 'Produk tersimpan permanen di browser ini.';
+  document.getElementById('submitProduct').textContent = '💾 Simpan Produk';
+  openModal('productModal');
+}
+function openEditModal(id) {
+  const p = getAllProducts().find(x => x.id === id);
+  if (!p) return;
+  editMode = true;
+  clearForm();
+  document.getElementById('f-id').value = p.id;
+  document.getElementById('f-name').value = p.name;
+  document.getElementById('f-icon').value = p.icon || '';
+  document.getElementById('f-category').value = p.category;
+  document.getElementById('f-price').value = p.price;
+  document.getElementById('f-desc').value = p.description;
+  document.getElementById('f-features').value = p.features.join(', ');
+  document.getElementById('f-badge').value = p.badge || '';
+  document.getElementById('f-badgeColor').value = p.badgeColor || '#7c3aed';
+  document.getElementById('modalTitle').textContent = '✏️ Edit Produk';
+  document.getElementById('modalSub').textContent = `Mengedit: ${p.name}`;
+  document.getElementById('submitProduct').textContent = '💾 Simpan Perubahan';
+  openModal('productModal');
 }
 
-document.getElementById('closeModal').onclick = () =>
-  document.getElementById('modalOverlay').classList.remove('open');
-document.getElementById('modalOverlay').onclick = (e) => {
-  if (e.target.id === 'modalOverlay')
-    document.getElementById('modalOverlay').classList.remove('open');
-};
+document.getElementById('closeProductModal').onclick = () => closeModal('productModal');
+document.getElementById('cancelProductModal').onclick = () => closeModal('productModal');
+document.getElementById('productModal').onclick = e => { if (e.target.id === 'productModal') closeModal('productModal'); };
 
 document.getElementById('submitProduct').onclick = () => {
+  if (!isAdmin) return;
   const name = document.getElementById('f-name').value.trim();
-  const icon = document.getElementById('f-icon').value.trim() || '📦';
   const desc = document.getElementById('f-desc').value.trim();
-  if (!name || !desc) { alert('Nama & deskripsi wajib diisi!'); return; }
+  if (!name || !desc) { showToast('❌ Nama & deskripsi wajib diisi!', 'error'); return; }
 
   const price = parseInt(document.getElementById('f-price').value) || 0;
   const badge = document.getElementById('f-badge').value.trim() || null;
   const featsRaw = document.getElementById('f-features').value.trim();
   const features = featsRaw ? featsRaw.split(',').map(f => f.trim()).filter(Boolean) : [];
+  const icon = document.getElementById('f-icon').value.trim() || '📦';
+  const category = document.getElementById('f-category').value;
+  const badgeColor = badge ? document.getElementById('f-badgeColor').value : null;
+  const orderMessage = `Halo, saya ingin order ${name}. Tolong info lebih lanjut!`;
 
-  products.push({
-    id: Date.now(), name, icon,
-    category: document.getElementById('f-category').value,
-    description: desc, features, price,
-    priceLabel: fmtPrice(price), badge,
-    badgeColor: badge ? document.getElementById('f-badgeColor').value : null,
-    orderMessage: `Halo, saya ingin order ${name}. Tolong info lebih lanjut!`,
-  });
+  if (editMode) {
+    const id = parseInt(document.getElementById('f-id').value);
+    const isDefault = CONFIG.defaultProducts.find(d => d.id === id);
+    const updated = { name, icon, category, description: desc, features, price, priceLabel: fmtPrice(price), badge, badgeColor, orderMessage };
+    if (isDefault) {
+      saveOverride(id, updated);
+    } else {
+      const extras = getExtras().map(p => p.id === id ? {...p, ...updated} : p);
+      saveExtras(extras);
+    }
+    showToast(`✅ "${name}" berhasil diperbarui!`);
+  } else {
+    const extras = getExtras();
+    extras.push({ id: Date.now(), name, icon, category, description: desc, features, price, priceLabel: fmtPrice(price), badge, badgeColor, orderMessage });
+    saveExtras(extras);
+    showToast(`✅ "${name}" berhasil ditambahkan!`);
+  }
 
+  closeModal('productModal');
   activeFilter = 'Semua';
-  renderStats(); renderFilter(); renderGrid();
-  document.getElementById('modalOverlay').classList.remove('open');
-  ['f-name','f-icon','f-desc','f-features','f-badge','f-price'].forEach(id =>
-    document.getElementById(id).value = '');
-
-  const toast = document.getElementById('toast');
-  toast.textContent = `✅ "${name}" berhasil ditambahkan!`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
+  renderAll();
 };
 
-renderStats(); renderFilter(); renderGrid();
+// ── MODAL HAPUS ──
+function openDeleteModal(id, name) {
+  pendingDeleteId = id;
+  document.getElementById('deleteName').textContent = `"${name}"`;
+  const isDefault = CONFIG.defaultProducts.find(d => d.id === id);
+  document.getElementById('modalTitle');
+  const confirmBtn = document.getElementById('confirmDelete');
+  if (isDefault) {
+    // Default product → reset saja override-nya
+    document.querySelector('#deleteModal h2').textContent = 'Reset Produk?';
+    document.querySelector('#deleteModal .modal-sub').innerHTML = `Produk <span class="confirm-name">"${name}"</span> akan direset ke data awal.`;
+    confirmBtn.textContent = '🔄 Reset';
+    confirmBtn.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
+    confirmBtn.style.boxShadow = '0 4px 20px rgba(245,158,11,.3)';
+  } else {
+    document.querySelector('#deleteModal h2').textContent = 'Hapus Produk?';
+    document.querySelector('#deleteModal .modal-sub').innerHTML = `Produk <span class="confirm-name">"${name}"</span> akan dihapus permanen.`;
+    confirmBtn.textContent = '🗑️ Hapus';
+    confirmBtn.style.background = 'linear-gradient(135deg,#ef4444,#b91c1c)';
+    confirmBtn.style.boxShadow = '0 4px 20px rgba(239,68,68,.3)';
+  }
+  openModal('deleteModal');
+}
+document.getElementById('cancelDelete').onclick = () => { closeModal('deleteModal'); pendingDeleteId = null; };
+document.getElementById('deleteModal').onclick = e => { if (e.target.id === 'deleteModal') { closeModal('deleteModal'); pendingDeleteId = null; } };
+document.getElementById('confirmDelete').onclick = () => {
+  if (!pendingDeleteId) return;
+  const isDefault = CONFIG.defaultProducts.find(d => d.id === pendingDeleteId);
+  if (isDefault) {
+    // Reset override
+    const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    if (stored.overrides) delete stored.overrides[pendingDeleteId];
+    localStorage.setItem(LS_KEY, JSON.stringify(stored));
+    showToast('🔄 Produk berhasil direset ke data awal', 'warn');
+  } else {
+    const extras = getExtras().filter(p => p.id !== pendingDeleteId);
+    saveExtras(extras);
+    showToast('🗑️ Produk berhasil dihapus');
+  }
+  pendingDeleteId = null;
+  closeModal('deleteModal');
+  renderAll();
+};
+
+// ── ADMIN ──
+function setAdminMode(on) {
+  isAdmin = on;
+  document.body.classList.toggle('admin-mode', on);
+  document.getElementById('adminBadge').classList.toggle('show', on);
+  document.getElementById('fabAdmin').textContent = on ? '➕' : '🔑';
+  document.getElementById('fabAdmin').title = on ? 'Tambah Produk' : 'Admin Login';
+  on ? sessionStorage.setItem(LS_SESSION, '1') : sessionStorage.removeItem(LS_SESSION);
+  renderGrid();
+}
+if (sessionStorage.getItem(LS_SESSION)) setAdminMode(true);
+
+document.getElementById('fabAdmin').onclick = () => {
+  isAdmin ? openAddModal() : openModal('loginModal');
+  if (!isAdmin) setTimeout(() => document.getElementById('pwInput').focus(), 100);
+};
+document.getElementById('loginBtn').onclick = doLogin;
+document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  const err = document.getElementById('loginError');
+  if (pw === CONFIG.adminPassword) {
+    err.classList.remove('show');
+    closeModal('loginModal');
+    document.getElementById('pwInput').value = '';
+    setAdminMode(true);
+    showToast('✅ Selamat datang, Admin!');
+  } else {
+    err.classList.add('show');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwToggle').onclick = () => {
+  const i = document.getElementById('pwInput');
+  i.type = i.type === 'password' ? 'text' : 'password';
+};
+document.getElementById('logoutBtn').onclick = () => { setAdminMode(false); showToast('👋 Keluar dari mode admin'); };
+
+// ── BOOT ──
+renderAll();
 </script>
 </body>
 </html>
